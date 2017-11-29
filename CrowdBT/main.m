@@ -22,7 +22,8 @@ record = zeros(trials,budget); % record of ranking accuracy
 for tr = 1:trials % all dependent
     
     theta = drchrnd(ones(1,n_obj),1); % generate items    dirchelet 分布产生
-    rho = betarnd(u,v,1,n_anno); % generate workers     beta分布产生       the quanlity of workers
+    %rho = betarnd(u,v,1,n_anno); % generate workers     beta分布产生       the quanlity of workers
+    rho = unifrnd(0.9,1,n_anno);
     
     % create data
     all_comb = combnk(1:n_obj, 2);   %All combinations of the N elements in V taken K at a time，  组合

@@ -1,7 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Crowd-BT Algorithm
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-% data貌似没有实际内容，只有对应关系。  data 字段1，worker;  字段2，3，物品编号的组合（每个worker完全一样的重复）
+% data 360 K*N(两两组合)= 8*(10*9/2/1)貌似没有实际内容，只有对应关系。  data 字段1，worker;  字段2，3，物品编号的组合（每个worker完全一样的重复）
+% score 360 
+% try result 两对中间结果， 每个结果，里面全都是 sigma mu 1 2,  alpha, beta
+
 % 先验参数，就 (Dir产生8个，每个worker对应一个alpha,beta,类似棒球手的表现)alpha, beta   (Gaussian 产生10个)mu sigma  
 % ρ是贝塔分布产生的，评论者的素质  eg 0.78 	0.83 	0.26 	0.93 	0.85 	0.89 	0.99 	0.99 
 % θ是dirchelet分布产生的，每个物品/项目的分数   eg 0.047 	0.013 	0.063 	0.066 	0.410 	0.067 	0.050 	0.125 	0.149 	0.011 
@@ -18,7 +21,7 @@ function [mu, sigma, alpha, beta, accuracy, hist]...
     n_obj = length(mu);% 10个
     accuracy = zeros(1,budget);
     
-    [score, try_result] = init_score(data, mu, sigma, alpha, beta, para);%数据从这里产生了  360个分数，   360对结果（每个里面都是mu sigma 1,2   alpha, beta）
+    [score, try_result] = init_score(data, mu, sigma, alpha, beta, para);%数据从这里产生了  360个分数（表示什么） 360对结果（每个结果里面都是mu sigma 1,2   alpha, beta， 六个超参数，不断更新）
 
     hist = struct('seq', zeros(n_obj,1), 'score', ones(n_obj,1));
     candidate = true(n_data,1);%candidate也全部是1
@@ -86,7 +89,7 @@ function [mu, sigma, alpha, beta, accuracy, hist]...
             score(r) = win_prob*(KL_win_o+gamma*KL_win_a)+lose_prob*(KL_lose_o+gamma*KL_lose_a);
         end
         
-       %% Compute and print the Kendall's tau     准确率用KL距离来算，估算的mu和实际的分数
+        %% Compute and print the Kendall's tau     准确率用KL距离来算，估算的mu和实际的分数
         dist = 0;
         for xx = 1:n_obj %遍历所有的组合xx yy是物品的索引而且每次都不同
             for yy = xx+1:n_obj
@@ -96,9 +99,16 @@ function [mu, sigma, alpha, beta, accuracy, hist]...
             end
         end
         accuracy(iter) = 2 * dist / (n_obj * (n_obj-1));
-        
-        fprintf('Trial = %d, Iter = %d, Accuracy = %f \n', trial, iter, accuracy(iter));
-        
+
     end
+            
+    fprintf('Trial = %d, Iter = %d, Accuracy = %f \n', trial, iter, accuracy(iter));
+    fprintf('\n mu:\n')
+    fprintf(1, '%0.3f ', mu)
+    fprintf('\n theta:\n')
+    fprintf(1, '%0.3f ', theta)
+    fprintf('\n\n\n')
     
+    
+    %来一个新的
 end

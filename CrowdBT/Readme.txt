@@ -1,4 +1,4 @@
-ï»¿=====================
+====================
  Crowd-BT Algorithm
 =====================
 
@@ -22,3 +22,54 @@ u, v = Beta(u,v) is the generating distribution of workers' reliability
 alpha0, beta0 = Beta(alpha0,beta0) is the prior of workers' reliability
 
 gamma = exploration-exploitaion tradeoff
+
+
+·ÖÎöÏÖÓĞµÄ´úÂë
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Crowd-BT Algorithm
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Active Learning
+% data 360 K*N(Á½Á½×éºÏ)= 8*(10*9/2/1)Ã²ËÆÃ»ÓĞÊµ¼ÊÄÚÈİ£¬Ö»ÓĞ¶ÔÓ¦¹ØÏµ¡£  data ×Ö¶Î1£¬worker;  ×Ö¶Î2£¬3£¬ÎïÆ·±àºÅµÄ×éºÏ£¨Ã¿¸öworkerÍêÈ«Ò»ÑùµÄÖØ¸´£©
+% score 360 
+% try result Á½¶ÔÖĞ¼ä½á¹û£¬ Ã¿¸ö½á¹û£¬ÀïÃæÈ«¶¼ÊÇ sigma mu 1 2,  alpha, beta
+
+% ÏÈÑé²ÎÊı£¬¾Í (Dir²úÉú8¸ö£¬Ã¿¸öworker¶ÔÓ¦Ò»¸öalpha,beta,ÀàËÆ°ôÇòÊÖµÄ±íÏÖ)alpha, beta   (Gaussian ²úÉú10¸ö)mu sigma 
+
+ÕâÀïÊÇÉú³ÉÄ£ĞÍµÄ²ÎÊı£¬Àí½âÎªÕæÊµ²ÎÊı 
+% ¦ÑÊÇ±´Ëş·Ö²¼²úÉúµÄ£¬ÆÀÂÛÕßµÄËØÖÊ  eg 0.78 	0.83 	0.26 	0.93 	0.85 	0.89 	0.99 	0.99 
+% ¦ÈÊÇdirchelet·Ö²¼²úÉúµÄ£¬Ã¿¸öÎïÆ·/ÏîÄ¿µÄ·ÖÊı   eg 0.047 	0.013 	0.063 	0.066 	0.410 	0.067 	0.050 	0.125 	0.149 	0.011 
+
+ÀïÃæµÄbuget¾ÍÊÇÖ¸Ê¾ÄãÒª¼ÆËã¼¸´Î£¬»òÕßËµÊäÈë¼¸¸öÑù±¾
+¹ı³ÌÖĞ¼ÆËã³öµÄmu£¬»áÓë×îÔ­Ê¼µÄtheta×ö¶Ô±È
+
+Ã¿´ÎÊäÈëÑù±¾£¬×¼±¸¼ÆËãÊ±£¬¾Í´ÓÉÏ´ÎµÄ½á¹û£¬ÌáÈ¡³öÏÈÑé²ÎÊı
+        % ¸üĞÂÏÈÑé ³¬²ÎÊı mu sigma
+        mu(i) = try_result{r,1}.mu1;
+        mu(j) = try_result{r,1}.mu2;
+        sigma(i) = try_result{r,1}.sigma1;
+        sigma(j) = try_result{r,1}.sigma2;
+
+
+
+
+Á½ÕßµÄÇĞºÏÓë²»Í¬£º
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+How to leverage Crowded Source
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ÆõºÏ£º 
+BCI multi-Channels -- the events      a group of annotators -- the items
+events (baseline signal + RT)         items (pairwise preference + real score)
+Ã¿¸öÏìÓ¦Ê±¼äresponse time £¨RT£©      theta£¬ÕæÊµ·ÖÊı
+Ã¿¸öÍ¨µÀ¼Ó±ä»»º¯Êı¶Ô±È                 pairwise input
+Ã¿¸öÍ¨µÀ¼Ó±ä»¯µÄ¶Ô½á¹¹µÄ²Î¿¼ĞÔ         etha£¬Ã¿¸öÆÀÂÛÕßµÄ×¨Òµ³Ì¶È
+
+²»Í¬£º
+theta = drchrnd(ones(1,n_obj),1); % generate items    dirchelet ·Ö²¼²úÉú
+rho = betarnd(u,v,1,n_anno); % generate workers     beta·Ö²¼²úÉú       the quanlity of workers
+% ¦ÑÊÇ±´Ëş·Ö²¼²úÉúµÄ£¬ÆÀÂÛÕßµÄËØÖÊ  eg 0.78 	0.83 	0.26 	0.93 	0.85 	0.89 	0.99 	0.99 
+% ¦ÈÊÇdirchelet·Ö²¼²úÉúµÄ£¬Ã¿¸öÎïÆ·/ÏîÄ¿µÄ·ÖÊı   eg 0.047 	0.013 	0.063 	0.066 	0.410 	0.067 	0.050 	0.125 	0.149 	0.011 
+µ«ÊÇÄÔµç²¨µÄRTÔõÃ´»áÂú×ãdirchelet·Ö²¼£¿ ¸÷¸öÍ¨µÀµÄÆÀ·ÖÖÊÁ¿eta£¬ÔõÃ´»áÂú×ã¦Â·Ö²¼ÄØ
+ANS:   ÕâÀïÖ»ÊÇ²ÎÊı³õÊ¼»¯Ë³±ã¿ØÖÆÑù±¾µÄÌØĞÔ£¬¶ø²»ÊÇËµÑù±¾ÒªÂú×ãÊ²Ã´·Ö²¼£¬ÎÒÓÃÁË uniform Ëæ»úº¯Êı£¬À´²úÉú eta¶Ô½á¹ûÃ»ÓĞÈÎºÎÓ°Ïì
+
+
+ 

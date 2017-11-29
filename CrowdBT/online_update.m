@@ -1,5 +1,5 @@
 function [mu1_new, mu2_new, sigma1_new, sigma2_new, alpha_new, beta_new,...
-    KL_o, KL_a, win_prob]=online_update(mu1, mu2, sigma1, sigma2, alpha, beta, para) % 输入都是先验概率
+    KL_o, KL_a, win_prob]=online_update(mu1, mu2, sigma1, sigma2, alpha, beta, para) % 输入都是先验概率,超参数
     % 按照伪代码说的，这里是 公式 12 13 14 15 17 18
     % in the pseudocode, we update the mu sigma alpha beta, according to
     % Eq(12)       

@@ -3,7 +3,7 @@ function [score, try_result]=init_score(data, mu, sigma, alpha, beta, para)
     n_data=size(data,1);
     try_result=cell(n_data,2);
     gamma=getOpt(para,'gamma',0);    
-    
+    % length(unique(mu)==1)全部只有一个相同的值
     if length(unique(mu))==1 && length(unique(sigma))==1 && length(unique(alpha))==1 && length(unique(beta))==1
         
         [mu1_new, mu2_new, sigma1_new, sigma2_new, alpha_new, beta_new, KL_o, KL_a, win_prob]=online_update(mu(1),mu(1), sigma(1), sigma(1), alpha(1), beta(1), para);
