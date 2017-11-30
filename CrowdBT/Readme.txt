@@ -72,4 +72,20 @@ rho = betarnd(u,v,1,n_anno); % generate workers     beta分布产生       the quanl
 ANS:   这里只是参数初始化顺便控制样本的特性，而不是说样本要满足什么分布，我用了 uniform 随机函数，来产生 eta对结果没有任何影响
 
 
+
+
+我:
+先验分布指的是？  10个theta ~ mu siga   8个eta ~ alpha, beta 对吧 
+我:
+至于这个 10个theta之间，  8个eta之间，不用满足任何分布关系
+我:
+如果是的话，接下来就很顺了
+:
+对
+我:
+那么问题，就在于 10个theta，与源源不断的 RT
+我:
+这个要怎么整
+
+
  
