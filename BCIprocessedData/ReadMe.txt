@@ -62,3 +62,23 @@ power功率 功，计算： 先用其他信号仿真，如正弦，如直流，一样给出采样率以及画图
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 所有文件mat文件都处理一下
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+filename rule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+1\ reference sample
+    fftsample.m   powersample.m
+2\ my fundamental function
+    Single_Side_Amplitude_Spectrum.m
+    Single_Side_Amplitude_Spectrum_Energy.m
+3\ test my fundamental function
+    test_Amplitude_Spectrum.m
+4\ preparation for all operation 
+4.1precess data:
+    proPrecessDD.m
+    data2AmplitudeSpectrum.m
+4.2 tranverse files
+    TranverseAllFiles.m
+5\ Final operation
+    data2AmplitudeSpectrum.m
