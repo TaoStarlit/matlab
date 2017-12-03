@@ -31,7 +31,7 @@ DD =
 plan
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 how to transform the time sequence in all channel to the ordered channel, 
-the methods can be power frequency conherence and linear mapping.
+the methods can be : power / frequency /conherence / linear mapping.
 
 insight the distribution of the RT , hist
 
@@ -45,3 +45,20 @@ function [ S ] = data2AmplitudeSpectrum( datafile, Hz, ech)
 File,  
 Hz: how many amplitude points do you want get (the amplitudes of high frequency may be near 0), 
 ech:how many epoches you want to get(Cannot display summaries of variables with more than 524288 elements.)
+
+--- generate the frenquence data files
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+power功率 功，计算： 先用其他信号仿真，如正弦，如直流，一样给出采样率以及画图
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+计算能量，通常是归一化处理，所以是假设 电阻是1，则功率就是u平方，而能量就是 u平方对时间积分； 平均功率，就是能量除以总的时间；
+1、对于采样得到的离散信号，积分是如何做的呢？
+2、每一点内部平方一下,  matlab  .* 就是逐个相乘 element-wise multiplication，  正常的*就是矩阵乘法，最后相加变标量
+3、对于离散采样，全部加起来个就完了。。。。  再注意一下，采样率， 最后乘以采样周期即可
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+所有文件mat文件都处理一下
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
