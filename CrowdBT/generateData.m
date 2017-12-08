@@ -1,28 +1,34 @@
-W=600;
-L=1000;
-T=1000;
+% W=600;
+% L=1000;
+% T=1000;
+% alpha=[24,3,2,1];
+
+W=150;
+L=250;
+T=250;
 alpha=[24,3,2,1];
 
 fileName='data_expert_23_4_2_1.mat';
 % fileName='data_amateur_5_4_3_2.mat';
 % fileName='data_malicious_2_4_5_2.mat';
 % fileName='data_spammer_5_5_4_4.mat';
-
+% 
 % W=6;
-% L=10;
+% L=250;
 % T=10;
 % alpha=[50,50,50,50];
 
-data = zeros(W*T,5); % 600¸ö¹¤ÈË£¬Ã¿ÈË1000¸öÈÎÎñ
+data = zeros(W*T,5); % 600ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½Ã¿ï¿½ï¿½1000ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
 Score(1:L,1)=1:L;
 Score(1:L,2)=normrnd(0,1,[L,1]);
-
-AllComb=nchoosek(1:L,3);
+% in matlab2016b  L can be 100 200 250 300, larger than 15
+AllComb=combnk(1:L,3);%nchoosek or combnk :the n must less than 15
 NumComb=length(AllComb);
+fprintf(['NumComb:' NumComb]);
 
-%¿ÉÒÔÒ»¸ösortÈ«²¿¸øÄãÅÅºÃ£¬ÕâÑù×Ó±£ÁôÁËË÷ÒýÖµ
+%ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½sortÈ«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅºÃ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 %{
 function ground_truth = ground_truth_generation(n_obj, n_average, n_anno, l)
    ground_truth = [];
@@ -45,23 +51,26 @@ end
 %}
 %eta=drchrnd([24,3,2,1],W);
 eta=drchrnd(alpha,W);
-eta(1:5)%¾ÍÖ»È¡ÁËÃ¿Ò»ÐÐµÄµÚÒ»¸öÔªËØ
+eta(1:5)%ï¿½ï¿½Ö»È¡ï¿½ï¿½Ã¿Ò»ï¿½ÐµÄµï¿½Ò»ï¿½ï¿½Ôªï¿½ï¿½
+fprintf('eta:');
 eta(1:5,1:4)
 
+
 for w = 1:W
+    fprintf('for worker:%d\r\n',w)
     before = (w-1)*T+1;   %for each annotator, index from 0,  m the number of comb
     after = w*T;
-    data(before:after,1) = w; % µÚÒ»ÁÐÊÇworker±àºÅ£¬¶þÈýÁÐÊÇÕâ¸ö×éºÏ
+    data(before:after,1) = w; % ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½workerï¿½ï¿½Å£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     
-    % 1000¸öÀïÃæÑ¡Èý×é £¬ÏÈ°ÑËùÓÐ×éºÏÁÐºÃ£¬C(3 1000)Ò²ÊÇ²»ÉÙ°¡£¬È»ºó³éÏÂ±ê£» »òÕß£¬¼òµ¥²úÉúÈý¸öËæ»úÊý1-1000¾ùÖµ·Ö²¼
-    %Èý¸öÊýÑ¡ºÃÁË£¬ÅÅÐòÒ²ÓÐÁË£¬ÔõÃ´ÓÃetaÈÃÆä±äÂÒÄØ£¿ --- ²ÎÕÕ crowdBT
-    iTaskComb = randsample(NumComb,T); %Task¸ö  ×éºÏµÄË÷Òý
+    % 1000ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½È°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐºÃ£ï¿½C(3 1000)Ò²ï¿½Ç²ï¿½ï¿½Ù°ï¿½ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½Â±ê£» ï¿½ï¿½ï¿½ß£ï¿½ï¿½òµ¥²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1-1000ï¿½ï¿½Öµï¿½Ö²ï¿½
+    %ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½Ã´ï¿½ï¿½etaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø£ï¿½ --- ï¿½ï¿½ï¿½ï¿½ crowdBT
+    iTaskComb = randsample(NumComb,T); %Taskï¿½ï¿½  ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½
     for t=1:T
-        Task=AllComb(iTaskComb(t),:); % Ã¿Ò»´ÎÀýÈç 2 3 8 È»ºóÔÚS°ÑËûÃÇÈ¡³öÀ´
-        TaskScore=Score(Task,:)  %Score=[[1:8];[11:18]]' ÃüÁîÐÐÏÈÓÃÕâ¸öÊÔÑé,  ¹ûÕæÈ¡³öÀ´ÁË
-        SortedScore=sortrows(TaskScore,-2)%Ä¬ÈÏÊÇÉýÐòµÄ£¬Ã²ËÆ²»¸ø½µÐò ; »Ø´ð£º ¿ÉÒÔ µÚ¶þÁÐ 2 ¸Ä³É -2
+        Task=AllComb(iTaskComb(t),:); % Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2 3 8 È»ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+        TaskScore=Score(Task,:);  %Score=[[1:8];[11:18]]' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,  ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        SortedScore=sortrows(TaskScore,-2);%Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½Ã²ï¿½Æ²ï¿½ï¿½ï¿½ï¿½ï¿½ ; ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¶ï¿½ï¿½ï¿½ 2 ï¿½Ä³ï¿½ -2
         iSortedSorce=SortedScore(:,1)';
-        r=rand;    %rand(n,m)0£¬1¾ùÔÈ·Ö²¼µÄ¾ØÕó£¬µ¥¶Àrand¾ÍÊÇ0£¬1
+        r=rand;    %rand(n,m)0ï¿½ï¿½1ï¿½ï¿½ï¿½È·Ö²ï¿½ï¿½Ä¾ï¿½ï¿½ó£¬µï¿½ï¿½ï¿½randï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½1
         if r<eta(w,1)
             distance=0;
             perferenceOfWorker=iSortedSorce;
@@ -81,13 +90,13 @@ for w = 1:W
             end
         else
             distance=3;
-            perferenceOfWorker=fliplr(iSortedSorce);%Ö±½Óµßµ¹
+            perferenceOfWorker=fliplr(iSortedSorce);%Ö±ï¿½Óµßµï¿½
         end
-        r
-        perferenceOfWorker
+        r;
+        perferenceOfWorker;
         
         data(before+t-1,2:4) = perferenceOfWorker;
-        data(before+t-1,5:6) = [r,distance];%Ë³±ã°ÑËæ»úÊýÒ²¼ÇÂ¼½øÈ¥
+        data(before+t-1,5:6) = [r,distance];%Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½Â¼ï¿½ï¿½È¥
     end 
 end
 
@@ -95,10 +104,10 @@ save(['./' fileName],'data','Score');
 % save('./' fileName,'data'); 
 % save('./' fileName,'Score','-append'); 
 
-%È«¸ÅÂÊ¹«Ê½£¬¾ö¶¨ÁËÒª²»Òªµßµ¹
+%È«ï¿½ï¿½ï¿½Ê¹ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Òªï¿½ßµï¿½
 %{
-        split = rho(k) * theta(i) / (theta(i) + theta(j)) + (1 - rho(k)) * theta(j) / (theta(i) + theta(j));%Ææ¹ÖÊÇ£¬Êµ¼Ê·ÖÊý£¬¿ÉÒÔÕâÑù×ÓÄÃ³öÀ´£¬²»ÊÇ¿¿Ñ§µÄÂð£¿
-        if rand > split % i,jµßµ¹Ò»ÏÂ£¬  randÕÒ²»µ½¶¨Òå£¬ºÃÆæ¹Ö£¡  ÕâÀï²ÅÊÇÕæÕýµÄÊäÈëÊý¾Ý£¬iÊÇ·ñ±Èj´ó£¬Òª¾­¹ý Ô¤ÉèµÄ ÆÀÂÛÕßËØÖÊºÍÄ¿±êµÄ·ÖÊý
+        split = rho(k) * theta(i) / (theta(i) + theta(j)) + (1 - rho(k)) * theta(j) / (theta(i) + theta(j));%ï¿½ï¿½ï¿½ï¿½Ç£ï¿½Êµï¿½Ê·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
+        if rand > split % i,jï¿½ßµï¿½Ò»ï¿½Â£ï¿½  randï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å£¬ï¿½ï¿½ï¿½ï¿½Ö£ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý£ï¿½iï¿½Ç·ï¿½ï¿½jï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ Ô¤ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êºï¿½Ä¿ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
             i = data(r,3);
             j = data(r,2);
         end
