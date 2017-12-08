@@ -1,12 +1,12 @@
 % W=600;
 % L=1000;
 % T=1000;
-% alpha=[24,3,2,1];
+% alpha=[24,4,2,1];
 
 W=150;
 L=250;
 T=250;
-alpha=[24,3,2,1];
+alpha=[24,4,2,1];
 
 fileName='data_expert_23_4_2_1.mat';
 % fileName='data_amateur_5_4_3_2.mat';
