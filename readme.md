@@ -1,3 +1,11 @@
+## for the ROPAL Ranking
+As the simulated datas of origin source code are not found now, I must generate the data by myself, need repeated comfirm with the Auther.
+
+Finish: generate 3-ray perference <-- eta of W work, (ground-true) Scores of L object. each worker has T task of annotating the 3-ray object.
+
+But using the data, I run the original project, the performance was not very well, so must comfirm the data again with the Auther
+
+
 ## Pairwise Crowdsource Ranking
 
 1. 10 object VS many many echochs of EEG:
