@@ -48,6 +48,7 @@ function [mu, sigma, alpha, beta, accuracy, hist]...
         candidate(r)=false;
         score(r)=0;        
         
+       % i, j, k  are the preference by the wokers 
        %% Reveal the results i>_k j  and update parameters 
         i = data(r, 2);
         j = data(r, 3);

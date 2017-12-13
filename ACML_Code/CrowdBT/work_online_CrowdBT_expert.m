@@ -7,7 +7,7 @@ n_anno = max(data(:,1));  % number of worker
 n_obj  = max(max(data(:,2:end)));  % number of object
 n_data = size(data,1);  % size of the data
 
-doc_diff = 1:1:n_obj;
+doc_diff = Score(:,2); %1:1:n_obj; ground-true
 %% set up initial parametmers 
 % parameters for all objects
 mu  =  zeros(n_obj,1);   % mean = 0
@@ -26,7 +26,7 @@ auc = [];
 account = 1;
 CNK = nchoosek(n_obj,2);
 for num = 1:1 % independent experiment
-    for N = 1 : 5  % times run through the data
+    for N = 1 : 1  % times run through the data  N= 5
         %% online Bayesian optimization for tuple (i,j,k) and worker K
         idx = randperm(n_data); % ranodm shuffer the data
         for r = 1 : n_data

@@ -25,7 +25,8 @@ for tr = 1:trials % all dependent
     rho = betarnd(u,v,1,n_anno); % generate workers     beta分布产生       the quanlity of workers
     %rho = unifrnd(0.9,1,n_anno); % 均匀分布产生也可以
     
-    % create data
+    % create data  just define the format, the preference will generate
+    % using the theta rho
     all_comb = combnk(1:n_obj, 2);   %All combinations of the N elements in V taken K at a time，  组合
     [m,~] = size(all_comb); % 10*9/(1*2)    m = 45
     data = zeros(m*n_anno,3); % 45 * 8 360组

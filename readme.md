@@ -6,6 +6,15 @@ Finish: generate 3-ray perference <-- eta of W work, (ground-true) Scores of L o
 But using the data, I run the original project, the performance was not very well, so must comfirm the data again with the Auther
 
 
+
+# 20171213
+when after when I fix the CrowdBT in ROPAL project, accurary is also very low; 
+So let me try to edit the CrowBT by myself
+First, try to run my data, base on the current project
+
+
+
+
 ## Pairwise Crowdsource Ranking
 
 1. 10 object VS many many echochs of EEG:
