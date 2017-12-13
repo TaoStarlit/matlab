@@ -99,14 +99,28 @@ function [mu, sigma, alpha, beta, accuracy, hist]...
             end
         end
         accuracy(iter) = 2 * dist / (n_obj * (n_obj-1));
+        %fprintf('Trial = %d, Iter = %d, Accuracy = %f \n', trial, iter, accuracy(iter));
 
     end
-            
-    fprintf('Trial = %d, Iter = %d, Accuracy = %f \n', trial, iter, accuracy(iter));
-    fprintf('\n mu:\n')
-    fprintf(1, '%0.3f ', mu)
-    fprintf('\n theta:\n')
+    fprintf('Trial = %d, Iter = %d, Accuracy = %f \n', trial, iter, accuracy(iter));        
+    fprintf('result detail:')
+    fprintf('\n what we get -- mu:\n')
+    fprintf(1, '%0.3f ', mu) % 1 is File ID
+    fprintf('\n ground true theta:\n')
     fprintf(1, '%0.3f ', theta)
+    lenmu = length(mu);
+    fprintf('\nlist the rank:');
+    mu = [mu [1:lenmu]']; % Dimensions of matrices being concatenated are not consistent.  consistent : the lenght or width of A and B must be same 
+    theta = [theta' [1:lenmu]'];
+    rankMu=sortrows(mu,-1);% 1 means sorting depend on 1st column, -1 means descent sort. 
+    rankTheta=sortrows(theta,-1);
+    contrast=[rankMu(:,2) rankTheta(:,2)];
+    %contrast'
+    fprintf('\n what we get Rank:');
+    fprintf(1, '%02d ',contrast(:,1))
+    fprintf('\n ground-true Rank:');
+    fprintf(1, '%02d ',contrast(:,2))
+
     fprintf('\n\n\n')
     
     
