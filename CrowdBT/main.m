@@ -22,8 +22,8 @@ record = zeros(trials,budget); % record of ranking accuracy
 for tr = 1:trials % all dependent
     
     theta = drchrnd(ones(1,n_obj),1); % generate items    dirchelet 分布产生
-    %rho = betarnd(u,v,1,n_anno); % generate workers     beta分布产生       the quanlity of workers
-    rho = unifrnd(0.9,1,n_anno);
+    rho = betarnd(u,v,1,n_anno); % generate workers     beta分布产生       the quanlity of workers
+    %rho = unifrnd(0.9,1,n_anno); % 均匀分布产生也可以
     
     % create data
     all_comb = combnk(1:n_obj, 2);   %All combinations of the N elements in V taken K at a time，  组合
@@ -36,7 +36,7 @@ for tr = 1:trials % all dependent
         data(before:after,2:3) = all_comb;
     end %问题是只有组合没有大小表示呀
     
-    % initial parameters
+    % initial parameters   also, these are the paremeters that we want to predict
     mu = zeros(n_obj,1); % 10 objects, the annotaion of each object obeys normal distribution   初始化先验参数
     sigma = ones(n_obj,1);
     alpha = alpha0 .* ones(n_anno,1);
@@ -46,7 +46,7 @@ for tr = 1:trials % all dependent
                         'sel_method', 'greedy', 'anno_threshold', 1e-4); % option augument
     % learning to obtain the parameters
     [mu, sigma, alpha, beta, accuracy, hist]...
-        = active_learning(data, budget, mu, sigma, alpha, beta, theta, rho, trials, active_para);
+        = active_learning(data, budget, mu, sigma, alpha, beta, theta, rho, trials, active_para);% the theta here is the groud true
     
     record(tr,:) = accuracy;
 
