@@ -12,4 +12,7 @@ list the rank:
  ground-true Rank:09 06 03 15 18 14 01 04 11 02 08 16 10 05 12 17 07 13   the uainmous preference of myself, not very accurate
 
 accuray:
-![alt text](https://github.com/TaoStarlit/matlab/blob/Babyface/CrowdBT/baby%20face%20accuracy-budget.fig)
+Babyface：
+![Image of babyface accuracy](https://github.com/TaoStarlit/matlab/blob/Babyface/CrowdBT/baby%20face%20accuracy-budget.png)
+Simulated data:
+![Image of Simulated data accuracy](https://github.com/TaoStarlit/matlab/blob/Babyface/CrowdBT/baby%20face%20accuracy-budget.png)
