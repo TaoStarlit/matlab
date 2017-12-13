@@ -3,6 +3,8 @@ load('data_expert_23_4_2_1.mat');
 theta = Score(:,2); % ground-true
 budget = 5000;
 saveFile = 'simulated result.mat'
+saveFig='simulated result.fig'
+savePng= 'simulated result.png'
 
 
 %% simulated data   BabyFaceData
@@ -67,11 +69,11 @@ for num = 1:1 % independent experiment
 %                 fprintf('Iter=%d, AUC=%.4f\n', account, auc(account));
 %            end
 %            account =account+1;
-           %% Compute and print the Kendall's tau     准确率用KL距离来算，估算的mu和实际的分数
+           %% Compute and print the Kendall's tau     ??????KL?????????????mu?????????
             dist = 0;
-            for xx = 1:n_obj %遍历所有的组合xx yy是物品的索引而且每次都不同
+            for xx = 1:n_obj %???????е????xx yy?????????????????ζ????
                 for yy = xx+1:n_obj
-                    if (mu(xx) - mu(yy))*(theta(xx) - theta(yy)) > 0 %估算的mu关系，与实际分数的不同，则距离加1
+                    if (mu(xx) - mu(yy))*(theta(xx) - theta(yy)) > 0 %?????mu?????????????????????????1
                         dist = dist + 1;
                     end
                 end
@@ -105,5 +107,5 @@ save (saveFile, 'contrast', 'accuracy')
 
 figure('Name','plot of accuracy-budget','NumberTitle','off')
 plot(accuracy);
-savefig('plot of accuracy-budget.fig')
-
+savefig(saveFig)
+saveas(gcf,savePng)
