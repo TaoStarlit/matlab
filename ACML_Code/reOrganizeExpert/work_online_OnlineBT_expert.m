@@ -2,13 +2,16 @@ clc;
 clear;
 tic
 load('data_expert_23_4_2_1.mat');
+saveFile = 'acc_expert_23_4_2_1_OnlineBT.mat';
 
 n_anno = max(data(:,1));  % number of worker
 n_obj  = max(max(data(:,2:end)));  % number of object
 n_data = size(data,1);  % size of the data
-
+budget=5000;
 theta = Score(:,2); % ground-true
 %doc_diff = Score(:,2); %1:1:n_obj; ground-true
+
+
 %% set up initial parametmers 
 % parameters for all objects
 mu  =  zeros(n_obj,1);   % mean = 0
@@ -30,18 +33,18 @@ CNK = nchoosek(n_obj,2);
 for num = 1:1 % independent experiment
     for N = 1 : 1  % times run through the data  N= 5
        %% online Bayesian optimization for tuple (i,j,k) and worker K
-        idx = randperm(n_data); % ranodm shuffer the data
-        for r = 1 : n_data
+        idx = randperm(budget); % ranodm shuffer the data; ==> budget
+        for r = 1 : budget % n_data
             i = data(idx(r), 2);
             j = data(idx(r), 3);
             k = data(idx(r), 4);
             K = data(idx(r), 1);
-           [mu(i), mu(j), sigma(i), sigma(j), alpha(K), beta(K)]...
-                = online_update_CrowdBT(mu(i), mu(j), sigma(i), sigma(j), alpha(K), beta(K), online_para);
-           [mu(i), mu(k), sigma(i), sigma(k), alpha(K), beta(K)]...
-                = online_update_CrowdBT(mu(i), mu(k), sigma(i), sigma(k), alpha(K), beta(K), online_para);
-           [mu(j), mu(k), sigma(j), sigma(j), alpha(K), beta(K)]...
-                = online_update_CrowdBT(mu(j), mu(k), sigma(j), sigma(k), alpha(K), beta(K), online_para);
+           [mu(i), mu(j), sigma(i), sigma(j)]...
+                = online_update_OnlineBT(mu(i), mu(j), sigma(i), sigma(j), online_para);
+           [mu(i), mu(k), sigma(i), sigma(k)]...
+                = online_update_OnlineBT(mu(i), mu(k), sigma(i), sigma(k), online_para);
+           [mu(j), mu(k), sigma(j), sigma(j)]...
+                = online_update_OnlineBT(mu(j), mu(k), sigma(j), sigma(k), online_para);
           
             
             
@@ -73,5 +76,5 @@ for num = 1:1 % independent experiment
     %accuracy = [accuracy, mean(auc(end-100:end))];
 end
 toc
-acc = auc;
-save acc_expert(23)_CrowdBT.mat acc
+%acc = auc;
+save(saveFile, 'acc')
